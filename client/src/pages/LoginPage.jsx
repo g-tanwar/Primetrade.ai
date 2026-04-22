@@ -1,5 +1,5 @@
 import { useState } from "react";
-import apiClient from "../api/axios";
+import apiClient, { setStoredToken } from "../api/axios";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ function LoginPage() {
       const token = response.data?.token;
 
       if (token) {
-        localStorage.setItem("token", token);
+        setStoredToken(token);
       }
 
       setMessage("Login successful.");

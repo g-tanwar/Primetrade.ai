@@ -1,5 +1,5 @@
 import { useState } from "react";
-import apiClient from "../api/axios";
+import apiClient, { setStoredToken } from "../api/axios";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -21,8 +21,16 @@ function RegisterPage() {
     setMessage("");
 
     try {
-      await apiClient.post("/auth/register", formData);
-      setMessage("Registration successful. You can now log in.");
+      const response = await apiClient.post("/auth/register", formData);
+      const token = response.data?.token;
+
+      if (token) {
+        setStoredToken(token);
+        setMessage("Registration successful. You are now logged in.");
+      } else {
+        setMessage("Registration successful. You can now log in.");
+      }
+
       setFormData({ name: "", email: "", password: "" });
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed.");
