@@ -1,12 +1,16 @@
-const userModel = require("../models/userModel");
+const User = require("../models/userModel");
 
-const getUsers = (req, res) => {
-  const users = userModel.findAll();
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find().select("-password");
 
-  res.status(200).json({
-    success: true,
-    data: users,
-  });
+    res.status(200).json({
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
