@@ -1,16 +1,8 @@
-const mongoose = require("mongoose");
 const Task = require("../models/task.model");
 
 const createTask = async (req, res, next) => {
   try {
     const { title, description, completed } = req.body;
-
-    if (!title) {
-      return res.status(400).json({
-        success: false,
-        message: "Title is required",
-      });
-    }
 
     const task = await Task.create({
       title,
@@ -45,13 +37,6 @@ const getTaskById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid task id",
-      });
-    }
-
     const task = await Task.findOne({ _id: id, user: req.user.id });
     if (!task) {
       return res.status(404).json({
@@ -72,13 +57,6 @@ const getTaskById = async (req, res, next) => {
 const updateTask = async (req, res, next) => {
   try {
     const { id } = req.params;
-
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid task id",
-      });
-    }
 
     const task = await Task.findOneAndUpdate({ _id: id, user: req.user.id }, req.body, {
       new: true,
@@ -104,13 +82,6 @@ const updateTask = async (req, res, next) => {
 const deleteTask = async (req, res, next) => {
   try {
     const { id } = req.params;
-
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid task id",
-      });
-    }
 
     const task = await Task.findOneAndDelete({ _id: id, user: req.user.id });
     if (!task) {
