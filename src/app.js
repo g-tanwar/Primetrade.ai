@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 
-const apiRoutes = require("./routes");
-const notFound = require("./middleware/notFound");
-const errorHandler = require("./middleware/errorHandler");
+const apiRoutes = require("./routes/index.route");
+const notFound = require("./middleware/not-found.middleware");
+const errorHandler = require("./middleware/error.middleware");
 
 const app = express();
 
